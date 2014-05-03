@@ -1,0 +1,35 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\Clientcode\Assets\Scripts\GameResources.cs">
+    <Files>
+      <File FileName="..\Clientcode\Assets\Scripts\World\World.cs" Line="79" Column="1" />
+      <File FileName="..\Clientcode\Assets\Scripts\WorldData.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Scripts\GameState.cs" Line="67" Column="1" />
+      <File FileName="..\Clientcode\Assets\Scripts\EnvironmentScore.cs" Line="12" Column="137" />
+      <File FileName="..\Clientcode\Assets\Network\Request\NetworkRequest.cs" Line="3" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestHighScore.cs" Line="2" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestRegister.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestPrediction.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestReady.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestLogin.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestHeartbeat.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestGetPlayers.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestExitGame.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestErrorLog.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestChat.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestChart.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestBadgeList.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Request\RequestAvatarList.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Response\ResponseUpdateEnvironmentScore.cs" Line="10" Column="24" />
+      <File FileName="..\Clientcode\Assets\Network\Response\ResponseSpeciesList.cs" Line="16" Column="2" />
+      <File FileName="..\Clientcode\Assets\Network\Response\ResponseShopAction.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Response\ResponseShop.cs" Line="1" Column="1" />
+      <File FileName="..\Clientcode\Assets\Network\Response\ResponseAvatarList.cs" Line="35" Column="39" />
+      <File FileName="..\Clientcode\Assets\Scripts\GameResources.cs" Line="55" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -1,0 +1,130 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package dataAccessLayer;
+
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Date;
+
+import java.util.ArrayList;
+
+import model.TutorialData;
+
+/**
+ *
+ * @author Robin
+ */
+public class TutorialDAO {
+    
+    private TutorialDAO()
+    {
+    }
+    
+    public static int initializeTutorial(int p_id, int cur_tut, int milestone)throws SQLException {
+        
+        TutorialData tutorial = null;
+        
+        int retState = -1;
+        
+        
+        //grab query by p_id
+        String query = "SELECT * FROM `tutorial_data` WHERE (`p_id` = ?)";
+        
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            connection = DAO.getDataSource().getConnection();
+            pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            //borrowed from playerDAO
+            pstmt.setInt(1, p_id);
+            //pstmt.setInt(2, cur_tut);
+            //pstmt.setInt(3, milestone);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                tutorial = new TutorialData(rs.getInt("p_id"), rs.getInt("cur_tut"), rs.getInt("milestone"));
+                
+            }
+
+            rs.close();
+            pstmt.close();
+        }
+        finally {
+            if (connection != null) {
+                connection.close();
+            }
+            retState = 0;
+        }
+        
+        return retState;
+    }
+    public static ArrayList<String[]> initializeContent()throws SQLException {
+        
+        ArrayList<String[]> tutorialContent = new ArrayList<String[]>();
+        //need to double check
+        String query = "SELECT `content` FROM `tutorial_content`";
+        
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        try 
+        {
+            connection = DAO.getDataSource().getConnection();
+            pstmt = connection.prepareStatement(query);
+            //will this grab all the content strings?
+            ResultSet rs = pstmt.executeQuery();
+            //from environmentDAO
+            while (rs.next()) 
+            {
+                String[] newstring = new String[]{rs.getString("content")};
+                tutorialContent.add(newstring);
+            }
+
+            rs.close();
+            pstmt.close();
+        } 
+        finally 
+        {
+            if (connection != null) 
+            {
+                connection.close();
+            }
+        }
+        
+        return tutorialContent;
+    }
+     public static void updateTutData(TutorialData tutorial) throws SQLException {
+        
+         
+        String query = "UPDATE `tutorial_data` SET `cur_tut` = ?, `milestone` = ? WHERE `p_id` = ?";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            connection = DAO.getDataSource().getConnection();
+            pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, tutorial.getCurTut());
+            pstmt.setInt(2, tutorial.getMilestone());
+            pstmt.setInt(3, tutorial.getPlayerID());
+            pstmt.execute();
+            pstmt.close();
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    
+}
