@@ -19,6 +19,11 @@ public class NetworkRequestTable {
 		add(Constants.CMSG_HEARTBEAT, "RequestHeartbeat");
 		add(Constants.CMSG_WORLD_LIST, "RequestWorldList");
 		add(Constants.CMSG_PREDICTION, "RequestPrediction");
+		add(Constants.CMSG_TUTORIAL_CHALLENGE_SPECIES, "RequestChallengeShopSpecies");
+		add(Constants.CMSG_TUTORIAL_CHALLENGE, "RequestChallenge");
+		add(Constants.CMSG_TUTORIAL_REMOVE_SPECIES, "RequestTutorialRemoveSpecies");
+		add(Constants.CMSG_TUTORIAL_DATA, "RequestTutorial");
+		add(Constants.CMSG_TUTORIAL_UPDATE_CUR_TUT, "RequestUpdateCurTut");
 	}
 	
 	public static void add(short request_id, string name) {

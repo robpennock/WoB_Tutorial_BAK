@@ -1,0 +1,38 @@
+using UnityEngine;
+
+using System;
+
+public class ResponseTutorialEventArgs : ExtendedEventArgs {
+	public string[] content { get; set; }
+	
+	public ResponseTutorialEventArgs() {
+		event_id = Constants.SMSG_TUTORIAL_DATA;
+	}
+}
+
+public class ResponseTutorial : NetworkResponse {
+	
+	private string[] content;
+	
+	public ResponseTutorial() {
+	}
+	
+	public override void parse() {
+		
+		short size = DataReader.ReadShort(dataStream);
+		content = new string[size];
+		
+		for (int i = 0; i < size; i++) {
+			content[i] = DataReader.ReadString(dataStream);
+		}
+	}
+	
+	public override ExtendedEventArgs process() {
+		ResponseTutorialEventArgs args = null;
+		
+		args = new ResponseTutorialEventArgs();
+		args.content = content;
+		
+		return args;
+	}
+}

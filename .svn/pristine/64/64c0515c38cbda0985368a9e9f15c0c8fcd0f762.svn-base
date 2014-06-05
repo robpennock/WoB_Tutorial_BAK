@@ -1,0 +1,71 @@
+package networking.response;
+
+/**
+ *
+ * @author Aleck
+ */
+import java.io.IOException;
+
+// Java Imports
+import dataAccessLayer.TutorialDAO;
+import java.util.ArrayList;
+import java.util.List;
+import model.TutorialData;
+import metadata.Constants;
+import utility.GamePacket;
+
+public class ResponseTutorial extends GameResponse
+{
+    
+    private int p_id;
+    private int cur_tut;
+    private int milestone;
+    private ArrayList<String[]> content;
+    
+    public ResponseTutorial() 
+    {
+        responseCode = Constants.SMSG_TUTORIAL_DATA;
+    }
+    
+    @Override
+    public byte[] constructResponseInBytes() {
+        GamePacket packet = new GamePacket(responseCode);
+        
+        packet.addInt32(p_id);
+        //packet.addInt32(cur_tut);
+        //packet.addInt32(milestone);
+        packet.addShort16((short)(content.size()));
+        
+        for (int i=0;i<content.size();++i)
+        {
+            packet.addString(content.get(i).toString());
+        }
+        
+        return packet.getBytes();
+    }
+    
+    public void setPid(int p_id)
+    {
+        this.p_id=p_id;
+    }
+    /*public void setCurtut(int cur_tut)
+    {
+        this.cur_tut=cur_tut;
+    }
+    public void setMilestone(int milestone)
+    {
+        this.milestone=milestone;
+    }*/
+    public void setContent(ArrayList<String[]> content)
+    {
+        this.content=content;
+    }
+    
+    public void updateTutorial(int p_id,int cur_tut, int milestone) throws Exception
+    {
+        TutorialData tutorial = new TutorialData();
+        TutorialDAO.initializeTutorial(p_id);
+        TutorialDAO.insertTutData(p_id, cur_tut, milestone, 0, 0);
+        setContent(TutorialDAO.initializeContent());
+    }
+}

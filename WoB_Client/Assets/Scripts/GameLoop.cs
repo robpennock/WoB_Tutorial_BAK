@@ -49,9 +49,9 @@ public class GameLoop : MonoBehaviour {
 						gameObject.GetComponent<GameState>().UpdateSpecies(group_id, nextBiomass);
 
 						if (nextBiomass < 0) {
-							gameObject.GetComponent<Chat>().SetMessage(speciesGroup.name + " decreased by " + -nextBiomass);
+							//gameObject.GetComponent<Chat>().SetMessage(speciesGroup.name + " decreased by " + -nextBiomass);
 						} else {
-							gameObject.GetComponent<Chat>().SetMessage(speciesGroup.name + " increased by " + nextBiomass);
+							//gameObject.GetComponent<Chat>().SetMessage(speciesGroup.name + " increased by " + nextBiomass);
 						}
 					} else {
 						Debug.Log("Missing Species");

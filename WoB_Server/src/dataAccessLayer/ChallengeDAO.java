@@ -36,7 +36,7 @@ public class ChallengeDAO {
         ChallengeData challenge = null;
         
         //query by p_id
-        String query = "SELECT * FROM `tutorial_challenge` WHERE (`c_id` = ?)";
+        String query = "SELECT * FROM `tutorial_challenges` WHERE (`c_id` = ?)";
         
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -44,6 +44,7 @@ public class ChallengeDAO {
         try {
             connection = DAO.getDataSource().getConnection();
             pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, challenge_id);
             //borrowed from playerDAO
             ResultSet rs = pstmt.executeQuery();
             
@@ -51,7 +52,8 @@ public class ChallengeDAO {
                 challenge = new ChallengeData(rs.getInt("c_id"), 
                         rs.getString("animal_ids"), rs.getString("plant_ids"),
                         rs.getInt("enviro_score"), rs.getInt("biomass_score"),
-                        rs.getInt("time"), rs.getInt("credits"));
+                        rs.getInt("time"), rs.getInt("credits"),
+                        rs.getInt("min_species_num"));
                 
             }
 
@@ -65,6 +67,33 @@ public class ChallengeDAO {
         }
         
         return challenge;
+    }
+    public static void updateChalData(ChallengeData challenge) throws SQLException {
+        
+         
+        //String query = "UPDATE `tutorial_data` SET `cur_tut` = ?, `milestone` = ?, `cur_challenge` = ?, chal_milestone = ? WHERE `p_id` = ?";
+        String query = "UPDATE `tutorial_challenges` SET `animal_ids`=?,`plant_ids`=?,`enviro_score`=?,`biomass_score`=?,`time`=?,`credits`=?,`min_species_num`=? WHERE `c_id`=?";
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            connection = DAO.getDataSource().getConnection();
+            pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, challenge.getAnimalID());
+            pstmt.setString(2, challenge.getPlantID());
+            pstmt.setInt(3, challenge.getEnviroScore());
+            pstmt.setInt(4, challenge.getBioScore());
+            pstmt.setInt(5, challenge.getTime());
+            pstmt.setInt(6, challenge.getCredits());
+            pstmt.setInt(7, challenge.getMinSpecies());
+            pstmt.setInt(8, challenge.getCID());
+            pstmt.execute();
+            pstmt.close();
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
     public static ArrayList<Integer> getSpeciesList(int challenge)throws SQLException {
         String input_string = null;
@@ -129,5 +158,38 @@ public class ChallengeDAO {
         }
         return output;
     }
+    
+    public static void insertChalData(int c_id, String animal_ids, String plant_ids, 
+            int enviro_score, int biomass_score, int time, int credits, 
+            int min_species_num) throws SQLException
+    {
+        
+        String query = " INSERT INTO `tutorial_challenges`(`c_id`, `animal_ids`, `plant_ids`, `enviro_score`, `biomass_score`, `time`, `credits`, `min_species_num`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            connection = DAO.getDataSource().getConnection();
+            pstmt = connection.prepareStatement(query);
+            //prepare insert variables
+            pstmt.setInt(1, c_id);
+            pstmt.setString(2, animal_ids);
+            pstmt.setString(3, plant_ids);
+            pstmt.setInt(4, enviro_score);
+            pstmt.setInt(5, biomass_score);
+            pstmt.setInt(6, time);
+            pstmt.setInt(7, credits);
+            pstmt.setInt(8, min_species_num);
+            
+            //run query
+            pstmt.execute();
+            pstmt.close();
+        } 
+        finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }//end insert
     
 }

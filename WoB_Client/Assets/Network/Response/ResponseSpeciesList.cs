@@ -26,6 +26,7 @@ public class ResponseSpeciesList : NetworkResponse {
 			SpeciesData species = new SpeciesData(DataReader.ReadInt(dataStream));
 			species.name = DataReader.ReadString(dataStream);
 			species.description = DataReader.ReadString(dataStream);
+			species.cost = DataReader.ReadInt(dataStream);
 			
 			short numArgs = DataReader.ReadShort(dataStream);
 			string[] extraArgs = new string[numArgs];

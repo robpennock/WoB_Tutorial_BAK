@@ -107,4 +107,16 @@ public class Species : MonoBehaviour {
 		GameObject organism = speciesList[0];
 		organism.GetComponent<AI>().territoryPos = position;
 	}
+	
+	public void resetSpecies() {
+		foreach (GameObject organism in speciesList) {
+			Destroy (organism);
+		}
+		speciesList = new List<GameObject>();
+	}
+
+	public void removeSpecie() {
+		Destroy(this);
+	}
+
 }

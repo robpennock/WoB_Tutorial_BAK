@@ -32,14 +32,14 @@ public class GameResources : MonoBehaviour {
 			style.fontSize = 20;
 			style.alignment = TextAnchor.UpperRight;
 			
-			ExtraMethods.DrawOutline(new Rect(-170, 0, 400, 50), credits.ToString("n0") + " Credits", style, Color.black, Color.green);
+			//ExtraMethods.DrawOutline(new Rect(-170, 0, 400, 50), credits.ToString("n0") + " Credits", style, Color.black, Color.green);
 	
 			style = new GUIStyle(skin.label);
 			style.font = skin.font;
 			style.fontSize = 20;
 			style.alignment = TextAnchor.UpperRight;
 	
-			ExtraMethods.DrawOutline(new Rect(-170, 20, 400, 50), coins.ToString("n0") + " Coins", style, Color.black, Color.yellow);
+			//ExtraMethods.DrawOutline(new Rect(-170, 20, 400, 50), coins.ToString("n0") + " Coins", style, Color.black, Color.yellow);
 
 		GUI.EndGroup();
 	}

@@ -73,6 +73,17 @@ public class Constants {
 	public static readonly short SMSG_ERROR_LOG = 230;
 	public static readonly short CMSG_PREDICTION = 131;
 	public static readonly short SMSG_PREDICTION = 231;
+	public static readonly short CMSG_TUTORIAL_CHALLENGE_SPECIES = 140;
+	public static readonly short SMSG_TUTORIAL_CHALLENGE_SPECIES = 240;
+	public static readonly short CMSG_TUTORIAL_CHALLENGE = 143;
+	public static readonly short SMSG_TUTORIAL_CHALLENGE = 243;
+	public static readonly short CMSG_TUTORIAL_REMOVE_SPECIES = 142;
+	public static readonly short SMSG_TUTORIAL_REMOVE_SPECIES = 242;
+	public static readonly short CMSG_TUTORIAL_DATA = 150;
+	public static readonly short SMSG_TUTORIAL_DATA = 250;
+	public static readonly short CMSG_TUTORIAL_UPDATE_CUR_TUT = 151;
+	public static readonly short SMSG_TUTORIAL_UPDATE_CUR_TUT = 251;
+
 	
 	// Response Only (3xx)
 	public static readonly short SMSG_BIRTH_ANIMAL = 301;

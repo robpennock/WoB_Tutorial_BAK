@@ -1,0 +1,394 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using AOT;
+
+public class Tutorial : MonoBehaviour {
+	private GameObject mainObject;
+	// Window Properties
+	private float width = 453;
+	private float height = 200;
+	// Other
+	private Rect windowRect;
+	private Rect skipButtonRect;
+	private Rect nextButtonRect;
+	private Rect minimizeButtonRect;
+	private Vector2 scrollViewVector;
+	private string tutorialText = Strings.ecosystemTutorialStrings[0];
+	private int tutorialIndex = 0;
+	private bool tutorialComplete = false;
+	private bool readyForNextTutorial = true;
+	private bool objectiveCompleted = false;
+	private string message = "";
+	private Vector2 lastQuadrant;
+	private Vector2 lastPosition;
+	private bool isHidden;
+	private bool nextButtonHidden = false;
+	public static int score;
+	public GUISkin skin;
+	public GameObject congratPicture;
+	public GameObject awesomePicture;
+	private bool debugmode = true;
+
+	private int[] speciesList;
+	private bool initializedShop = false;
+
+	//Challenge
+	private int challenge1Index = 7;
+	private int challenge1Score = 8000;
+	private int challenge1SpeciesNum = 3;
+	private int challenge2Index = 8;
+	private int challenge2Score = 13500;
+	private int challenge2SpeciesNum = 4;
+	private int challenge3Index = 9;
+	private int challenge3Score = 20000;
+	private int challenge3SpeciesNum = 5;
+	private int challenge4Index = 10;
+	private int challenge4Score = 20000;
+	private int challenge4SpeciesNum = 6;
+
+	void Awake() {
+		mainObject = GameObject.Find("MainObject");
+		gameObject.AddComponent("TutorialShop");
+		//mainObject.GetComponent<MessageQueue>().AddCallback(Constants.SMSG_CHAT, ResponseChat);
+		mainObject.GetComponent<MessageQueue>().AddCallback(Constants.SMSG_TUTORIAL_CHALLENGE_SPECIES, ResponseChallengeShopSpecies);
+	}
+
+	// Use this for initialization
+	void Start () {
+		if (!isHidden) {
+			windowRect = new Rect(200, Screen.height/2 - height - 10, width, height);
+		}
+
+		scrollViewVector = Vector2.zero;
+
+
+	}
+	
+	// Update is called once per frame
+	void Update () 
+	{
+		/*
+		if(tutorialIndex == 5) {
+			if(!initialized_shop) {
+				gameObject.GetComponent<TutorialShop>().selectedSpecies = null;
+				gameObject.GetComponent<TutorialShopCartPanel>().ResetCartList();
+
+				int[] challenge_species = new int[2] {74, 1};
+				gameObject.GetComponent<TutorialShop>().Initialize(null, challenge_species);
+
+				initialized_shop = true;
+			}
+		}
+		*/
+
+		if (tutorialComplete) 
+		{
+			Instantiate(congratPicture,congratPicture.transform.position , congratPicture.transform.rotation);// when user sucessful
+			Instantiate(awesomePicture,awesomePicture.transform.position , awesomePicture.transform.rotation);// the images will display!
+		}
+
+		//Challenge 1
+		if(tutorialIndex == challenge1Index)
+		{
+			if(!initializedShop) {
+				ConnectionManager cManager = mainObject.GetComponent<ConnectionManager>();
+				if (cManager) {
+					cManager.Send(RequestChallengeShopSpecies(0));
+					initializedShop = true;
+				}
+			}
+
+			int speciesNumber = (new List<Species>(GetComponent<GameState>().speciesList.Values)).Count;
+
+			if(score >= challenge1Score && speciesNumber >= challenge1SpeciesNum)
+			{
+				objectiveCompleted = true;
+				readyForNextTutorial = true;
+			}
+		}
+
+		//Challenge 2
+
+		else if(tutorialIndex == challenge2Index)
+		{
+			if(!initializedShop) {
+				//int[] challenge_species = new int[4] {1007, 59, 85, 47};
+				//gameObject.GetComponent<TutorialShop>().Initialize(null, challenge_species);
+
+				ConnectionManager cManager = mainObject.GetComponent<ConnectionManager>();
+				if (cManager) {
+					cManager.Send(RequestChallengeShopSpecies(1));
+					initializedShop = true;
+				}
+				/*
+				Debug.Log("Printing speciesList inside Challenge2");
+				for(int i = 0; i < speciesList.Length; i++)
+					Debug.Log(speciesList[i]+", ");
+				*/
+			}
+			
+			int speciesNumber = (new List<Species>(GetComponent<GameState>().speciesList.Values)).Count;
+			
+			if(score >= challenge2Score && speciesNumber >= challenge2SpeciesNum)
+			{
+				objectiveCompleted = true;
+				readyForNextTutorial = true;
+			}			
+		}
+
+		//Challenge 3
+		else if(tutorialIndex == challenge3Index)
+		{
+			if(!initializedShop) {
+				ConnectionManager cManager = mainObject.GetComponent<ConnectionManager>();
+				if (cManager) {
+					cManager.Send(RequestChallengeShopSpecies(3));
+					initializedShop = true;
+				}
+				
+			}
+			
+			int speciesNumber = (new List<Species>(GetComponent<GameState>().speciesList.Values)).Count;
+			
+			if(score >= challenge3Score && speciesNumber >= challenge3SpeciesNum)
+			{
+				objectiveCompleted = true;
+				readyForNextTutorial = true;
+			}			
+		}
+
+		//Challenge 4
+		else if(tutorialIndex == challenge4Index)
+		{
+			if(!initializedShop) {
+				ConnectionManager cManager = mainObject.GetComponent<ConnectionManager>();
+				if (cManager) {
+					cManager.Send(RequestChallengeShopSpecies(4));
+					initializedShop = true;
+				}
+				
+			}
+			
+			int speciesNumber = (new List<Species>(GetComponent<GameState>().speciesList.Values)).Count;
+			
+			if(score >= challenge4Score && speciesNumber >= challenge4SpeciesNum)
+			{
+				objectiveCompleted = true;
+				readyForNextTutorial = true;
+			}			
+		}
+
+		else
+		{
+			if(!initializedShop) {
+				gameObject.GetComponent<TutorialShop>().selectedSpecies = null;
+				gameObject.GetComponent<TutorialShopCartPanel>().ResetCartList();
+
+				gameObject.GetComponent<TutorialShop>().InitializeAll();
+
+				initializedShop = true;
+			}
+		}
+	
+	}
+	
+	void OnGUI() {
+		GUI.skin = skin;
+		if (!isHidden) 
+		{
+			GUI.backgroundColor = new Color(0.0f , 0.0f , 0.0f , 1.0f); // black color
+			Color color = GUI.color;
+			color.a =1f; // transparency
+			GUI.color = color;
+
+			windowRect = GUI.Window((int)Constants.GUI_ID.Tutorial, windowRect, MakeWindow, "Tutorial");
+		}
+
+		else if (GUI.Button(new Rect(Screen.width - 260, Screen.height - 40, 120, 30), "Tutorial")) {
+			isHidden = !isHidden;
+		}
+		/*if (Event.current.type == EventType.KeyUp && Event.current.keyCode == KeyCode.Return) {
+			SendMessage();
+		}*/
+	}
+
+	/* Kenneth Roberton, 4/30/2014
+	 * With the text size increased I think the tutorial box needs to be increased in size, particularly in height.
+	 * Also If possible I would like it if the tutorial box defaulted to being on top of other windows,
+	 * so that, by default, the tutorial box would display infront of the shop box.
+	 * Making the tutorial button in the bottom left side of the screen permenant, so that when the box is open
+	 * the tutorial box minimizes and then when clicked again reappears in its original starting location
+	 * might help make it easier for the player to get a hold of it to.
+	*/
+	
+	public void MakeWindow(int id) {
+		scrollViewVector = GUI.BeginScrollView(new Rect(30, 30, width - 40, height - 110), scrollViewVector, new Rect(0, 0, 300, 400));
+
+		GUIStyle style = new GUIStyle(GUI.skin.label);
+		style.font = (Font)Resources.Load("coopbl", typeof(Font)); // changing the font style and must be "Resources" folder!
+		style.fontSize = 20; // Changing for size of letters
+		GUI.Label(new Rect (0, 0, 380, 400), tutorialText, style); // more parameter "style" added
+		GUI.contentColor = Color.white;
+		GUI.EndScrollView();
+		
+		
+		if (!readyForNextTutorial && !objectiveCompleted) 
+			GUI.contentColor = Color.grey;
+		//Would Like a way to grey out(disable) Next button when a task is required.
+		nextButtonRect = new Rect(width - 45, height - 25, 40, 20);
+		if (GUI.Button(nextButtonRect, "Next")) {
+			if (readyForNextTutorial || objectiveCompleted) nextTutorial();
+		}
+		GUI.contentColor = Color.white; // might be string of color
+		
+		
+		
+		skipButtonRect = new Rect(width - 165, height - 25, 115, 20);
+		if (GUI.Button(skipButtonRect, "Skip(Debug Only)")) {
+			skipTutorial();
+		}
+		
+		minimizeButtonRect = new Rect(width - 23, 3, 20, 20);
+		if (GUI.Button(minimizeButtonRect, "-")) {
+			isHidden = !isHidden;
+		}
+		GUI.DragWindow();
+
+		/*
+		scrollViewVector = GUI.BeginScrollView(new Rect(30, 30, width - 40, height - 110), scrollViewVector, new Rect(0, 0, 300, 400));
+		//			GUI.contentColor = Color.black;
+		GUI.Label(new Rect (0, 0, 380, 400), tutorialText);
+		//			GUI.contentColor = Color.white;
+		GUI.EndScrollView();
+
+
+		if (!readyForNextTutorial && !objectiveCompleted) 
+		GUI.contentColor = Color.grey;
+		//Would Like a way to grey out(disable) Next button when a task is required.
+		nextButtonRect = new Rect(width - 45, height - 25, 40, 20);
+		if (GUI.Button(nextButtonRect, "Next")) {
+			if (readyForNextTutorial || objectiveCompleted) nextTutorial();
+		}
+		GUI.contentColor = Color.white;
+
+
+		
+		skipButtonRect = new Rect(width - 165, height - 25, 115, 20);
+		if (GUI.Button(skipButtonRect, "Skip(Debug Only)")) {
+			skipTutorial();
+		}
+
+		minimizeButtonRect = new Rect(width - 23, 3, 20, 20);
+		if (GUI.Button(minimizeButtonRect, "-")) {
+			isHidden = !isHidden;
+		}
+		GUI.DragWindow();
+		*/
+	}
+
+	void nextTutorial()
+	{
+		objectiveCompleted = false;
+		initializedShop = false;
+		if (readyForNextTutorial) 
+		{
+			readyForNextTutorial = Strings.ecosystemTutorialStringIsNextable[tutorialIndex];
+
+			tutorialIndex++;
+
+			/*if(tutorialIndex+1 >= Strings.ecosystemTutorialStrings.Length)
+				readyForNextTutorial = false;*/
+				if(tutorialIndex == Strings.ecosystemTutorialStrings.Length) 
+				{
+					tutorialComplete = true;
+
+					RequestTutorialComplete(Constants.CMSG_ECOSYSTEM_TUTORIAL_COMPLETE);
+				} 
+				else
+				tutorialText = Strings.ecosystemTutorialStrings[tutorialIndex];
+			}
+		}
+
+		void skipTutorial()
+		{
+			readyForNextTutorial = true;
+			nextTutorial();
+		}
+
+		public RequestChallengeShopSpecies RequestChallengeShopSpecies(short challenge) 
+		{
+			//Debug.Log("ENTERED RequestChallengeShopSpecies function)");
+			RequestChallengeShopSpecies request = new RequestChallengeShopSpecies();
+			request.Send(challenge);
+			
+			return request;
+		}
+		
+		public void ResponseChallengeShopSpecies(ExtendedEventArgs eventArgs) {
+			ResponseChallengeShopSpeciesEventArgs args = eventArgs as ResponseChallengeShopSpeciesEventArgs;
+			
+			speciesList = args.speciesList;
+			
+			if (speciesList == null || speciesList.Length <= 0) {
+				Debug.Log("Failed to load Challenge Shop Species");
+			}
+			else 
+			{
+				for (int i = 0; i < speciesList.Length; i++) 
+					Debug.Log("species index " + i + ": speciesID = " + speciesList[i]);
+
+				initializeShop();
+			}
+		}
+
+		public void initializeShop() {
+			gameObject.GetComponent<TutorialShop>().selectedSpecies = null;
+			gameObject.GetComponent<TutorialShopCartPanel>().ResetCartList();
+			gameObject.GetComponent<TutorialShop>().Initialize(null, speciesList);
+		}
+
+		public void RequestTutorialComplete(short tutorialRequest)
+		{
+		}
+		public void ResponseTutorialComplete(ExtendedEventArgs eventArgs)
+		{
+		}
+	/*
+	public void SendMessage() {
+		ConnectionManager cManager = mainObject.GetComponent<ConnectionManager>();
+		
+		if (cManager) {
+			cManager.Send(RequestChat(0, message));
+		}
+	}
+
+	public void SetMessage(string message) {
+		innerText += "\n" + message;
+	}
+	*/
+	/*
+	public RequestChat RequestChat(short type, string message) {
+		RequestChat request = new RequestChat();
+		request.Send(type, message);
+		
+		return request;
+	}
+	
+	public void ResponseChat(ExtendedEventArgs eventArgs) {
+		ResponseChatEventArgs args = eventArgs as ResponseChatEventArgs;
+		
+		if (args.status == 0) {
+			string message = "";
+			
+			if (args.type == 0) {
+				message += "[" + args.username + "] says: ";
+			}
+			
+			message += args.message;
+			
+			SetMessage(message);
+		}
+	}
+	*/
+}

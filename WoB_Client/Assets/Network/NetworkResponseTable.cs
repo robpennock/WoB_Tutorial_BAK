@@ -28,6 +28,11 @@ public class NetworkResponseTable {
 		add(Constants.SMSG_READY, "ResponseReady");
 		add(Constants.SMSG_UPDATE_TIME, "ResponseUpdateTime");
 		add(Constants.SMSG_UPDATE_ENV_SCORE, "ResponseUpdateEnvironmentScore");
+		add(Constants.SMSG_TUTORIAL_CHALLENGE_SPECIES, "ResponseChallengeShopSpecies");
+		add(Constants.SMSG_TUTORIAL_CHALLENGE, "ResponseChallenge");
+		add(Constants.SMSG_TUTORIAL_REMOVE_SPECIES, "ResponseTutorialRemoveSpecies");
+		add(Constants.SMSG_TUTORIAL_DATA, "ResponseTutorial");
+		add(Constants.SMSG_TUTORIAL_UPDATE_CUR_TUT, "ResponseUpdateCurTut");
 	}
 	
 	public static void add(short response_id, string name) {

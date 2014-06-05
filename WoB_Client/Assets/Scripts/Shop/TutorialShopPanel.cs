@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class TutorialShopPanel : MonoBehaviour {
-  
+
   private Vector2 scrollPosition = Vector2.zero;
   private TutorialShop shop;
   private List<SpeciesData> itemList;
@@ -23,7 +23,7 @@ public class TutorialShopPanel : MonoBehaviour {
     itemList = new List<SpeciesData>(shop.itemList.Values);
     itemList.Sort(ComparisonTypes.SortByTrophicLevels);
 
-    int height = 20 + itemList.Count / 6 * 130;
+    int height = 20 + (itemList.Count + 6) / 6 * 130;
 
     scrollPosition = GUI.BeginScrollView(new Rect(5, 70, 570, 300), scrollPosition, new Rect(0, 0, 300, height));
     GUI.Box(new Rect(0, 0, 555, height), "");
@@ -62,16 +62,32 @@ public class TutorialShopPanel : MonoBehaviour {
           style.normal.background = null;
 
           GUI.Label(new Rect(5, -3, 70, 30), species.name, style);
-          GUI.EndGroup ();
-        }
-        GUI.EndScrollView();
-      }
 
-      public void SelectSpecies(SpeciesData species) {
-        if (shop.selectedSpecies != null && species.species_id == shop.selectedSpecies.species_id) {
-          transform.root.gameObject.GetComponent<TutorialShopCartPanel>().Add(species);
+          if(gameObject.GetComponent<Tutorial>().currentTutorialCredits - 
+           gameObject.GetComponent<TutorialShopCartPanel>().totalCost -
+           species.cost < 0 && gameObject.GetComponent<Tutorial>().currentlyOnChallenge) {
+            GUI.Label(new Rect(5, 80, 70, 30), "<color=#ff0000ff>$" + species.cost.ToString() + "</color>", style);
+            } else {
+              GUI.Label(new Rect(5, 80, 70, 30), "$" + species.cost.ToString(), style);
+            }
+
+            GUI.EndGroup ();
+          }
+          GUI.EndScrollView();
         }
 
-        shop.selectedSpecies = species;
+        public void SelectSpecies(SpeciesData species) {
+          if (shop.selectedSpecies != null && species.species_id == shop.selectedSpecies.species_id &&
+              (gameObject.GetComponent<Tutorial>().currentTutorialCredits - gameObject.GetComponent<TutorialShopCartPanel>().totalCost -species.cost >= 0) && 
+              gameObject.GetComponent<Tutorial>().currentlyOnChallenge) {
+
+            transform.root.gameObject.GetComponent<TutorialShopCartPanel>().Add(species);
+
+          } else if (shop.selectedSpecies != null && species.species_id == shop.selectedSpecies.species_id &&
+            !gameObject.GetComponent<Tutorial>().currentlyOnChallenge) {
+            transform.root.gameObject.GetComponent<TutorialShopCartPanel>().Add(species);
+          }
+
+          shop.selectedSpecies = species;
+        }
       }
-    }

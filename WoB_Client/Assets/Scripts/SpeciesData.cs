@@ -14,6 +14,7 @@ public class SpeciesData {
 	public Dictionary<int, string> preyList { get; set; }
 	public string[] categoryList { get; set; }
 	public Texture image { get; set; }
+	public int cost { get; set; }
 	
 	public SpeciesData(int species_id) {
 		this.species_id = species_id;
@@ -30,6 +31,7 @@ public class SpeciesData {
 		biomass = species.biomass;
 		diet_type = species.diet_type;
 		trophic_level = species.trophic_level;
+		cost = species.cost;
 
 		predatorList = new Dictionary<int, string>();
 		foreach (KeyValuePair<int, string> predator in species.predatorList) {

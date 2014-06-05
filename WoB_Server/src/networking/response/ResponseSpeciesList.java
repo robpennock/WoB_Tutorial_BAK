@@ -25,6 +25,8 @@ public class ResponseSpeciesList extends GameResponse {
             packet.addInt32(species.getID());
             packet.addString(species.getName());
             packet.addString(species.getDescription());
+            packet.addInt32(species.getPrice());
+            
 
             packet.addShort16((short) species.getExtraArgs().size());
             for (String s : species.getExtraArgs()) {

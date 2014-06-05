@@ -148,7 +148,7 @@ public class Zone {
         isEnable = !manipulationID.isEmpty();
         return this.manipulationID = manipulationID;
     }
-    
+
     public Map<Integer, Integer> getSpeciesChangeList() {
         return speciesChangeList;
     }
@@ -157,27 +157,27 @@ public class Zone {
         random = new Random();
         return this.speciesChangeList = speciesChangeList;
     }
-    
+
     public void clearSpeciesChangeList() {
         speciesChangeList.clear();
     }
-    
+
     public Random getRandom() {
         return random;
     }
-    
+
     public boolean containsSpecies(int species_id) {
         return speciesList.containsKey(species_id);
     }
-    
+
     public Species getSpecies(int species_id) {
         return speciesList.get(species_id);
     }
-    
+
     public Map<Integer, Species> getSpeciesList() {
         return speciesList;
     }
-    
+
     public Map<Integer, Integer> getAddSpeciesList() {
         return addNodeList;
     }
@@ -187,7 +187,7 @@ public class Zone {
         addNodeList = new HashMap<Integer, Integer>();
         return nodeList;
     }
-    
+
     public void setAddNodeList(HashMap<Integer, Integer> addNodeList) {
         this.addNodeList = addNodeList;
     }
@@ -227,11 +227,11 @@ public class Zone {
     public boolean containsOrganism(int organism_id) {
         return plants.containsKey(organism_id) || animals.containsKey(organism_id);
     }
-    
+
     public List<Animal> getAnimals() {
         return new ArrayList<Animal>(animals.values());
     }
-    
+
     public List<Organism> getOrganisms() {
         List<Organism> organismList = new ArrayList<Organism>();
         organismList.addAll(plants.values());
@@ -257,7 +257,7 @@ public class Zone {
 
         return organismList;
     }
-    
+
     public void addSpecies(Species species) {
         speciesList.put(species.getID(), species);
         setTotalBiomass((float) (totalBiomass + species.getTotalBiomass()));
@@ -322,11 +322,11 @@ public class Zone {
     public int getEnvironmentScore() {
         return environmentScore;
     }
-    
+
     public float getPrevBiomass() {
         return prevBiomass;
     }
-    
+
     public float setPrevBiomass(float prevBiomass) {
         return this.prevBiomass = prevBiomass;
     }
@@ -437,5 +437,12 @@ public class Zone {
 
     public boolean stopTimeActiveTimer() {
         return timeActiveTimer.end();
+    }
+
+    public void resetAllSpecies() {
+        speciesList = new HashMap<Integer, Species>();
+		addNodeList = new HashMap<Integer, Integer>();
+        setTotalBiomass(0);
+        updateEnvironmentScore();
     }
 }

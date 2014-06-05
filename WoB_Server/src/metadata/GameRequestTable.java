@@ -50,6 +50,11 @@ public class GameRequestTable {
         add(Constants.CMSG_BADGE_LIST, "RequestBadgeList");
         add(Constants.CMSG_ERROR_LOG, "RequestErrorLog");
         add(Constants.CMSG_PREDICTION, "RequestPrediction");
+        add(Constants.CMSG_TUTORIAL_CHALLENGE_SPECIES, "RequestChallengeShopSpecies");
+        add(Constants.CMSG_TUTORIAL_REMOVE_SPECIES, "RequestTutorialRemoveSpecies");
+        add(Constants.CMSG_TUTORIAL_DATA, "RequestTutorial");
+        add(Constants.CMSG_TUTORIAL_CHALLENGE, "RequestChallenge");
+        add(Constants.CMSG_TUTORIAL_UPDATE_CUR_TUT, "RequestUpdateCurTut");
     }
 
     /**

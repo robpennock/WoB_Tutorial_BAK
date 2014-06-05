@@ -27,6 +27,11 @@ public class GameState : MonoBehaviour {
 	{
 		return speciesList.Count;
 	}
+
+	public List<int> getSpeciesIDArray()
+	{
+		return new List<int>( speciesList.Keys );
+	}
 	
 	public Species GetSpeciesGroup(int group_id) {
 		return speciesList.ContainsKey(group_id) ? speciesList[group_id] : null;
@@ -66,6 +71,40 @@ public class GameState : MonoBehaviour {
 			CreateSpecies(args.species_id, SpeciesTable.speciesList[args.species_id].name, "Plant", 500);
 		}
 
-		UpdateSpecies(args.species_id, args.biomass * 2);
+		UpdateSpecies(args.species_id, args.biomass * 1);
 	}
+
+	public void resetSpecies() {
+		Species[] species = FindObjectsOfType(typeof(Species)) as Species[];
+
+		foreach (Species specie in species) {
+			specie.resetSpecies();
+		}
+
+		foreach (Species specie in species) {
+			specie.removeSpecie();
+		}
+
+		speciesList = new Dictionary<int, Species>();
+	}
+
+	public int getTotalBiomass() 
+	{
+		Species[] species = FindObjectsOfType(typeof(Species)) as Species[];
+		int totalBiomass = 0;
+		/*
+		foreach(Species specie in species)
+		{
+			totalBiomass += specie.biomass;
+		}
+		*/
+
+		foreach(Species specie in species)
+		{
+			totalBiomass += specie.size;
+		}
+
+		return totalBiomass;
+	}
+
 }

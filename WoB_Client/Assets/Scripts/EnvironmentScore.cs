@@ -40,12 +40,14 @@ public class EnvironmentScore : MonoBehaviour {
 	public void SetScore(int score) {
 		this.score = score;
 	}
+
+	public int GetScore() {
+		return this.score;
+	}
 	
 	public void ResponseUpdateEnvironmentScore(ExtendedEventArgs eventArgs) {
 		ResponseUpdateEnvironmentScoreEventArgs args = eventArgs as ResponseUpdateEnvironmentScoreEventArgs;
 
 		SetScore(args.score);
-		Debug.Log("args.score: " + args.score);
-		Tutorial.score = args.score;
 	}
 }

@@ -68,7 +68,21 @@ public class Constants {
     public final static short SMSG_ERROR_LOG = 230;
     public final static short CMSG_PREDICTION = 131;
     public final static short SMSG_PREDICTION = 231;
-
+    public final static short CMSG_TUTORIAL_CHALLENGE_SPECIES = 140;
+    public final static short SMSG_TUTORIAL_CHALLENGE_SPECIES = 240;
+    
+    public final static short CMSG_TUTORIAL_REMOVE_SPECIES = 142;
+    public final static short SMSG_TUTORIAL_REMOVE_SPECIES = 242;
+    
+    public final static short CMSG_TUTORIAL_CHALLENGE = 143;
+    public final static short SMSG_TUTORIAL_CHALLENGE = 243;
+    
+    public final static short CMSG_TUTORIAL_DATA = 150;
+    public final static short SMSG_TUTORIAL_DATA = 250;
+    
+    public final static short CMSG_TUTORIAL_UPDATE_CUR_TUT = 151;
+    public final static short SMSG_TUTORIAL_UPDATE_CUR_TUT = 251;
+    
     // Response Only (3xx)
     public final static short SMSG_BIRTH_ANIMAL = 301;
     public final static short SMSG_BIRTH_PLANT = 302;
@@ -90,7 +104,7 @@ public class Constants {
     public final static short SMSG_CREATE_ENV = 318;
     public final static short SMSG_TARGET_REWARD = 319;
     public final static short SMSG_BADGE_UPDATE = 320;
-    public final static short SMSG_TUTORIAL_DATA = 321;
+    
 
     // Game Types
     public static final short GAME_TYPE_PVE = 0;
@@ -139,7 +153,7 @@ public class Constants {
     public static final int MAX_CREDITS = 1000000;
     public static final int MAX_LEVEL = 10;
     public static final int STARTING_NEEDED_EXP = 1000;
-    public static final float MULTIPLIER_EXP = 1f;
+    public static final float MULTIPLIER_EXP = 1f;    
     // Other
     public static final float TIME_MODIFIER = 1f;
     public static final int SAVE_INTERVAL = 60000;

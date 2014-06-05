@@ -30,7 +30,7 @@ public final class ZoneDAO {
     public static int createZone(Zone zone) throws SQLException {
         int zone_id = -1;
 
-        String query = "INSERT INTO `zone` (`env_id`, `type`, `order`, `row`, `column`, `manipulation_id`) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO `zone` (`env_id`, `type`, `order`, `row`, `column`, `manipulation_id`, `carrying_capacity`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -44,6 +44,7 @@ public final class ZoneDAO {
             pstmt.setInt(4, zone.getRow());
             pstmt.setInt(5, zone.getColumn());
             pstmt.setString(6, zone.getManipulationID());
+            pstmt.setInt(7, 0);
             pstmt.execute();
 
             ResultSet rs = pstmt.getGeneratedKeys();

@@ -30,11 +30,12 @@ public class ChallengeData {
     private int biomass_score;
     private int time;
     private int credits;
+    private int min_species_num;
     
     public ChallengeData(){};
     
     public ChallengeData(int c_id, String animal_ids, String plant_ids, 
-            int enviro_score, int biomass_score, int time, int credits){
+            int enviro_score, int biomass_score, int time, int credits, int min_species_num){
         
         this.c_id = c_id;
         this.animal_ids = animal_ids;        
@@ -43,6 +44,7 @@ public class ChallengeData {
         this.biomass_score=biomass_score;
         this.time = time;
         this.credits = credits;
+        this.min_species_num = min_species_num;
     }
     
     public int getCID(){
@@ -52,7 +54,7 @@ public class ChallengeData {
     public int setCID(int c_id) {
         return this.c_id = c_id;
     }
-    public String getAnimalID(String animal_ids){
+    public String getAnimalID(){
         return animal_ids;
     }
     
@@ -60,7 +62,7 @@ public class ChallengeData {
         return this.animal_ids = animal_ids;
     }
     
-    public String getPlantID(String plant_ids){
+    public String getPlantID(){
         return plant_ids;
     }
     
@@ -94,6 +96,14 @@ public class ChallengeData {
     
     public int setCredits(int credits) {
         return this.credits = credits;
+    }
+    
+    public int getMinSpecies() {
+        return min_species_num;
+    }
+    
+    public void setMinSpecies(int num) {
+        this.min_species_num = num;
     }
     
 }

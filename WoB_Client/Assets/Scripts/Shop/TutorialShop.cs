@@ -22,6 +22,8 @@ public class TutorialShop : MonoBehaviour {
   private GameObject messageBox;
   private Vector2 scrollPosition = Vector2.zero;
   public bool isHidden { get; set; }
+
+  public Dictionary<int, SpeciesData> entireSpeciesList { get; set; }
   
   void Awake() {
     mainObject = GameObject.Find("MainObject");
@@ -35,6 +37,8 @@ public class TutorialShop : MonoBehaviour {
     
     isHidden = true;
     mainObject.GetComponent<MessageQueue>().AddCallback(Constants.SMSG_SHOP, ResponseShop);
+    mainObject.GetComponent<MessageQueue>().AddCallback(Constants.SMSG_SPECIES_LIST, ResponseSpeciesList);
+
   }
 
   // Use this for initialization
@@ -44,11 +48,13 @@ public class TutorialShop : MonoBehaviour {
     windowRect.y = (Screen.height - windowRect.height) / 2;
 
     worldObject = GameObject.Find("WorldObject");
+    entireSpeciesList = new Dictionary<int, SpeciesData>();
 
     ConnectionManager cManager = mainObject.GetComponent<ConnectionManager>();
     
     if (cManager) {
       cManager.Send(RequestShop(1));
+      cManager.Send(new RequestSpeciesList());
     }
 
   }
@@ -59,11 +65,15 @@ public class TutorialShop : MonoBehaviour {
   }
   
   void OnGUI() {
+    GUIStyle btnStyle = new GUIStyle(GUI.skin.button);
+    btnStyle.font = (Font)Resources.Load("coopbl", typeof(Font));
+
     if (!isHidden) {
+      GUI.backgroundColor = new Color(0.0f , 0.0f , 0.0f , 1.0f);
       windowRect = GUI.Window((int) Constants.GUI_ID.Shop, windowRect, MakeWindow, "Shop");
     }
 
-    if (GUI.Button(new Rect(Screen.width - 120, Screen.height - 40, 100, 30), "Shop")) {
+    if (GUI.Button(new Rect(Screen.width - 120, Screen.height - 40, 100, 30), "Shop", btnStyle)) {
       isHidden = !isHidden;
     }
   }
@@ -72,7 +82,7 @@ public class TutorialShop : MonoBehaviour {
     GUIStyle style = new GUIStyle(GUI.skin.label);
     style.fontSize = 18;
 
-    GUI.Label(new Rect(width / 2 - 100, 30, 200, 50), "Choose Your Species", style);
+    GUI.Label(new Rect(width / 2 - 100, 30, 200, 50), "<b>Choose Your Species</b>", style);
     
     gameObject.GetComponent<TutorialShopPanel>().MakeWindow();
     gameObject.GetComponent<TutorialShopInfoPanel>().MakeWindow();
@@ -98,15 +108,16 @@ public class TutorialShop : MonoBehaviour {
   public void Initialize(string[] config, int[] challenge_species) {
     itemList.Clear();
 
-    int[] speciesList = new int[SpeciesTable.speciesList.Count];
+    //int[] speciesList = new int[SpeciesTable.speciesList.Count];
+    int[] speciesList = new int[entireSpeciesList.Count];
     int i = 0;
-    foreach (KeyValuePair<int, SpeciesData> s in SpeciesTable.speciesList) {
+    foreach (KeyValuePair<int, SpeciesData> s in entireSpeciesList) {
       speciesList[i++] = s.Key;
     }
 
     foreach (int species_id in speciesList) {
       if (System.Array.IndexOf(challenge_species, species_id) != -1) {
-        SpeciesData species = new SpeciesData(SpeciesTable.speciesList[species_id]);
+        SpeciesData species = new SpeciesData(entireSpeciesList[species_id]);
 
         species.image = Resources.Load(Constants.IMAGE_RESOURCES_PATH + species.name) as Texture;
 
@@ -116,6 +127,32 @@ public class TutorialShop : MonoBehaviour {
       }
     }
   }
+
+
+	public void InitializeAll()
+	{
+		itemList.Clear();
+		
+		//int[] speciesList = new int[SpeciesTable.speciesList.Count];
+    int[] speciesList = new int[entireSpeciesList.Count];
+		int i = 0;
+		foreach (KeyValuePair<int, SpeciesData> s in entireSpeciesList) {
+			speciesList[i++] = s.Key;
+		}
+
+		foreach (int species_id in speciesList) {
+
+				//SpeciesData species = new SpeciesData(SpeciesTable.speciesList[species_id]);
+        SpeciesData species = new SpeciesData(entireSpeciesList[species_id]);
+				
+				species.image = Resources.Load(Constants.IMAGE_RESOURCES_PATH + species.name) as Texture;
+				
+				if (!itemList.ContainsKey(species_id)) {
+					itemList.Add(species_id, species);
+				}
+
+		}
+	}
 
 
 
@@ -130,5 +167,10 @@ public class TutorialShop : MonoBehaviour {
     ResponseShopEventArgs args = eventArgs as ResponseShopEventArgs;
     
     //Initialize(args.config, args.speciesList);
+  }
+
+  public void ResponseSpeciesList(ExtendedEventArgs eventArgs) {
+    ResponseSpeciesListEventArgs args = eventArgs as ResponseSpeciesListEventArgs;
+    entireSpeciesList = args.speciesList;
   }
 }

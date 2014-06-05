@@ -55,6 +55,8 @@
      <Compile Include="Assets\Network\Request\NetworkRequest.cs" />
      <Compile Include="Assets\Network\Request\RequestAvatarList.cs" />
      <Compile Include="Assets\Network\Request\RequestBadgeList.cs" />
+     <Compile Include="Assets\Network\Request\RequestChallenge.cs" />
+     <Compile Include="Assets\Network\Request\RequestChallengeShopSpecies.cs" />
      <Compile Include="Assets\Network\Request\RequestChart.cs" />
      <Compile Include="Assets\Network\Request\RequestChat.cs" />
      <Compile Include="Assets\Network\Request\RequestErrorLog.cs" />
@@ -70,10 +72,15 @@
      <Compile Include="Assets\Network\Request\RequestShopAction.cs" />
      <Compile Include="Assets\Network\Request\RequestSpeciesAction.cs" />
      <Compile Include="Assets\Network\Request\RequestSpeciesList.cs" />
+     <Compile Include="Assets\Network\Request\RequestTutorial.cs" />
+     <Compile Include="Assets\Network\Request\RequestTutorialRemoveSpecies.cs" />
+     <Compile Include="Assets\Network\Request\RequestUpdateCurTut.cs" />
      <Compile Include="Assets\Network\Request\RequestWorldList.cs" />
      <Compile Include="Assets\Network\Request\RequestWorldMenuAction.cs" />
      <Compile Include="Assets\Network\Response\NetworkResponse.cs" />
      <Compile Include="Assets\Network\Response\ResponseAvatarList.cs" />
+     <Compile Include="Assets\Network\Response\ResponseChallenge.cs" />
+     <Compile Include="Assets\Network\Response\ResponseChallengeShopSpecies.cs" />
      <Compile Include="Assets\Network\Response\ResponseChat.cs" />
      <Compile Include="Assets\Network\Response\ResponseCreateEnv.cs" />
      <Compile Include="Assets\Network\Response\ResponseLogin.cs" />
@@ -85,6 +92,9 @@
      <Compile Include="Assets\Network\Response\ResponseSpeciesAction.cs" />
      <Compile Include="Assets\Network\Response\ResponseSpeciesCreate.cs" />
      <Compile Include="Assets\Network\Response\ResponseSpeciesList.cs" />
+     <Compile Include="Assets\Network\Response\ResponseTutorial.cs" />
+     <Compile Include="Assets\Network\Response\ResponseTutorialRemoveSpecies.cs" />
+     <Compile Include="Assets\Network\Response\ResponseUpdateCurTut.cs" />
      <Compile Include="Assets\Network\Response\ResponseUpdateEnvironmentScore.cs" />
      <Compile Include="Assets\Network\Response\ResponseUpdateResources.cs" />
      <Compile Include="Assets\Network\Response\ResponseUpdateTime.cs" />
